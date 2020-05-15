@@ -1,0 +1,16 @@
+.add_recipe_wrap {
+	width: 45%;
+	margin: 0 auto;
+	.input_file_wrapper {
+		margin-top: 25px;;
+	}
+}
+
+@media(max-width: 500px) {
+	.add_recipe_wrap {
+		width: 100%;
+		h1 {
+			text-align: center;
+		}
+	}
+}

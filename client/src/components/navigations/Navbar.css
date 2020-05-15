@@ -1,0 +1,83 @@
+.main-navigation__logo h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #fff;
+}
+
+.main-navigation__heading a {
+  text-decoration: none;
+}
+
+.main-navigation__items {
+  margin-left: 1.5rem;
+}
+
+.main-navigation__items ul {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  align-items: center;
+}
+
+.main-navigation__items li {
+  margin: 0 1rem;
+}
+
+.main-navigation__items a,
+.main-navigation__items button {
+  text-decoration: none;
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border: none;
+  font: inherit;
+  background: transparent;
+  cursor: pointer;
+  vertical-align: middle;
+  margin: 0;
+}
+
+.main-navigation__items a:hover,
+.main-navigation__items a:active,
+.main-navigation__items a.active,
+.main-navigation__items button:hover,
+.main-navigation__items button:active {
+  background: #ffffff;
+  color: #5101d1;
+  border-radius: 3px;
+}
+
+.MuiList-padding {
+  padding-top: 50px !important;
+}
+
+.MuiListItemIcon-root {
+  min-width: 45px !important;
+}
+
+.drawer_menu_icon {
+  display: none !important;
+}
+
+.logout_btn {
+  border: 0;
+  padding: 0;
+  background: inherit;
+  color: #7444A0;
+}
+
+.logout_btn:hover {
+  cursor: pointer;
+}
+
+@media(max-width: 500px) {
+  .main-navigation {
+    justify-content: end;
+  }
+  .drawer_menu_icon {
+    display: block !important;
+  }
+  .main-navigation__items {
+    display: none;
+  }
+}

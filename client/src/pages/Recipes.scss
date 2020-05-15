@@ -1,0 +1,13 @@
+.recipes_wrapper {
+	.recipe_add_action {
+		text-align: right;
+	}
+	.recipes {
+		display: flex;
+		justify-content: space-around;
+		flex-wrap: wrap;
+	}
+	.MuiCard-root {
+		margin-top: 10px;
+	}
+}

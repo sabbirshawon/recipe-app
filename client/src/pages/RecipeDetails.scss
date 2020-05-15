@@ -1,0 +1,40 @@
+.recipe_details_wrapper {
+	.loader_wrap {
+		text-align: center;
+	}
+	.recipe_content {
+		.recipe_creator {
+			font-size: 16px;
+			color: gray;
+			.recipe_cretor_name {
+				cursor: pointer;
+			}
+		}
+	}
+	.recipe_image {
+		width: 50%;
+		margin: 0 auto;
+	}
+}
+
+@media(max-width: 500px) {
+	.recipe_details_wrapper {
+		.recipe_image {
+			width: 100%;
+		}
+		.recipe_content {
+			h1 {
+				font-size: 22px;
+			}
+		}
+		.recipe_ingredients_wrap,
+		.recipe_nutritions_wrap {
+			h2 {
+				font-size: 20px;
+			}
+			h3 {
+				font-size: 18px;
+			}
+		}
+	}
+}

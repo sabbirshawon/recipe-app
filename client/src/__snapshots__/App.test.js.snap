@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders 1`] = `
+<DocumentFragment>
+  <div
+    class="main-navigation"
+  />
+  <main
+    class="main-content"
+  >
+    <div
+      class="recipes_wrapper"
+    >
+      <div
+        class="recipe_add_action"
+      >
+        <button
+          class="MuiButtonBase-root MuiButton-root MuiButton-contained tooltip addRecipeBtn MuiButton-containedSecondary"
+          tabindex="0"
+          title="Login to add you recipe"
+          type="button"
+        >
+          <span
+            class="MuiButton-label"
+          >
+            Add your recipe
+          </span>
+          <span
+            class="MuiTouchRipple-root"
+          />
+        </button>
+      </div>
+      <div
+        class="recipes"
+        data-testid="recipes"
+      >
+        <div
+          class="loading"
+        >
+          <div
+            class="loader"
+            style="width: 120px; height: 120px;"
+          />
+        </div>
+      </div>
+    </div>
+  </main>
+</DocumentFragment>
+`;
