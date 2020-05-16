@@ -5,18 +5,18 @@ import {
   Switch,
   Redirect,
 } from 'react-router-dom';
-import AuthContext from './contexts/auth-context';
-import RecipesPage from './pages/Recipes';
-import RecipeDetails from './pages/RecipeDetails';
 import Login from './pages/Login';
 import SignUp from './pages/Signup';
-import AddRecipePage from './pages/AddRecipe';
-import UserPage from './pages/UserPage';
-import './App.scss';
-import ForgetPassword from './pages/ForgetPassword';
-import ResetPassword from './pages/ResetPassword';
 import NoMatch from './pages/NoMatch';
+import UserPage from './pages/UserPage';
+import RecipesPage from './pages/Recipes';
 import EditRecipe from './pages/EditRecipe';
+import AddRecipePage from './pages/AddRecipe';
+import ResetPassword from './pages/ResetPassword';
+import AuthContext from './contexts/auth-context';
+import RecipeDetails from './pages/RecipeDetails';
+import ForgetPassword from './pages/ForgetPassword';
+import './App.scss';
 
 const Navbar = lazy(() => import('./components/navigations/Navbar'));
 

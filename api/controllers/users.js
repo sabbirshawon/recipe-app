@@ -6,6 +6,7 @@ const nodeMailer = require("nodemailer");
 const User = require("../models/user");
 const Recipe = require("../models/recipe");
 
+// this is bad for production, better to use redis or any database
 let refreshTokens = [];
 
 exports.signUp = async (req, res) => {
@@ -15,7 +16,7 @@ exports.signUp = async (req, res) => {
     });
     if (existingUser) {
       return res.status(409).json({
-        message: "Sorry email exist",
+        message: "Sorry email doesn't exist",
       });
     }
     const hashedPassword = await bcrypt.hash(req.body.password, 12);
@@ -44,23 +45,30 @@ exports.login = async (req, res) => {
     const user = await User.findOne({
       email,
     });
+
     if (!user) {
       return res.status(401).json({
         error: "Email or Password isn't matched",
       });
     }
+
     const isEqual = await bcrypt.compare(password, user.password);
+
     if (!isEqual) {
       return res.status(500).json({
         error: "Email or Password isn't matched",
       });
     }
+
     const token = generateAccessToken(user);
     const refreshToken = jwt.sign({
       userId: user.id,
       email: user.email,
     }, process.env.REFRESH_TOKEN_SECRET);
+
+    // saving refresh tokens in an array
     refreshTokens.push(refreshToken);
+    console.log(refreshTokens);
     return res.status(200).json({
       message: "Authenticate successfull",
       userId: user.id,
@@ -83,43 +91,34 @@ exports.createNewAccessToken = async (req, res) => {
         error: "Add refresh token"
       });
     }
+
     if(!refreshTokens.includes(refreshToken)) {
       return res.status(403).json({
         error: "Not a valid token",
       });
     }
+
     jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
       if(err) {
         return res.status(500).json({
           error: err,
         });
       }
-      const accessToken = generateAccessToken({
+
+      const token = generateAccessToken({
         userId: user.id,
         email: user.email,
       });
+
       return res.status(200).json({
-        accessToken
+        token
       });
     })
   } catch (err) {
     return res.status(500).json({
       error: err,
     });
-}
-}
-
-function generateAccessToken(user) {
-  return jwt.sign(
-    {
-      userId: user.id,
-      email: user.email,
-    },
-    process.env.ACCESS_TOKEN_SECRET,
-    {
-      expiresIn: "10h",
-    }
-  );
+  }
 }
 
 exports.getProfile = async (req, res) => {
@@ -151,8 +150,8 @@ exports.getProfile = async (req, res) => {
 exports.forgetPassword = async (req, res) => {
   try {
     if (req.body.email === "") {
-      return res.status(500).json({
-        error: "Email required",
+      return res.status(404).json({
+        error: "Email is required",
       });
     }
 
@@ -162,7 +161,7 @@ exports.forgetPassword = async (req, res) => {
 
     if (!user) {
       return res.status(404).json({
-        error: "Email doesn't exist",
+        error: "Sorry, Email doesn't exist",
       });
     }
 
@@ -183,7 +182,7 @@ exports.forgetPassword = async (req, res) => {
     });
 
     const mailOptions = {
-      from: "lahinjs@gmail.com",
+      from: "recipe_app@gmail.com",
       to: `${user.email}`,
       subject: "Link to reset password",
       text:
@@ -299,4 +298,17 @@ exports.checkUser = async (req, res) => {
       error: err,
     });
   }
+}
+
+function generateAccessToken(user) {
+  return jwt.sign(
+    {
+      userId: user.id,
+      email: user.email,
+    },
+    process.env.ACCESS_TOKEN_SECRET,
+    {
+      expiresIn: "10h",
+    }
+  );
 }

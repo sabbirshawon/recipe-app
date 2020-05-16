@@ -44,7 +44,7 @@ exports.addRecipe = async (req, res) => {
       fat,
       protein,
       ingredients,
-      recipeImage: file.name,
+      recipeImage: file.name.replace(" ", ""),
       creator,
     });
 
@@ -52,7 +52,7 @@ exports.addRecipe = async (req, res) => {
     await user.save();
     await recipe.save();
     // eslint-disable-next-line
-    file.mv(`${__dirname}/../../client/public/uploads/${file.name}`, (err) => {
+    file.mv(`${__dirname}/../../client/public/uploads/${file.name.replace(" ", "")}`, (err) => {
       if (err) {
         return res.status(500).json({
           error: err,
