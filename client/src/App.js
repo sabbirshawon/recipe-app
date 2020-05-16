@@ -48,6 +48,7 @@ function App() {
     setToken(null);
     setUserId(null);
     localStorage.removeItem('userInfo');
+    localStorage.removeItem('userId');
   };
 
   return (

@@ -6,6 +6,8 @@ const nodeMailer = require("nodemailer");
 const User = require("../models/user");
 const Recipe = require("../models/recipe");
 
+let refreshTokens = [];
+
 exports.signUp = async (req, res) => {
   try {
     const existingUser = await User.findOne({
@@ -53,21 +55,18 @@ exports.login = async (req, res) => {
         error: "Email or Password isn't matched",
       });
     }
-    const token = jwt.sign(
-      {
-        userId: user.id,
-        email: user.email,
-      },
-      "somesupersecretkey",
-      {
-        expiresIn: "10h",
-      }
-    );
+    const token = generateAccessToken(user);
+    const refreshToken = jwt.sign({
+      userId: user.id,
+      email: user.email,
+    }, process.env.REFRESH_TOKEN_SECRET);
+    refreshTokens.push(refreshToken);
     return res.status(200).json({
       message: "Authenticate successfull",
       userId: user.id,
       token,
       expiresIn: "10h",
+      refreshToken
     });
   } catch (err) {
     return res.status(500).json({
@@ -75,6 +74,53 @@ exports.login = async (req, res) => {
     });
   }
 };
+
+exports.createNewAccessToken = async (req, res) => {
+  try {
+    const refreshToken = req.body.refreshToken;
+    if(!refreshToken) {
+      return res.status(401).json({
+        error: "Add refresh token"
+      });
+    }
+    if(!refreshTokens.includes(refreshToken)) {
+      return res.status(403).json({
+        error: "Not a valid token",
+      });
+    }
+    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
+      if(err) {
+        return res.status(500).json({
+          error: err,
+        });
+      }
+      const accessToken = generateAccessToken({
+        userId: user.id,
+        email: user.email,
+      });
+      return res.status(200).json({
+        accessToken
+      });
+    })
+  } catch (err) {
+    return res.status(500).json({
+      error: err,
+    });
+}
+}
+
+function generateAccessToken(user) {
+  return jwt.sign(
+    {
+      userId: user.id,
+      email: user.email,
+    },
+    process.env.ACCESS_TOKEN_SECRET,
+    {
+      expiresIn: "10h",
+    }
+  );
+}
 
 exports.getProfile = async (req, res) => {
   try {

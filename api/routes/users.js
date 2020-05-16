@@ -18,4 +18,6 @@ router.post("/check-user", usersController.checkUser);
 
 router.get("/:username", usersController.getProfile);
 
+router.post("/create-new-access-token", usersController.createNewAccessToken);
+
 module.exports = router;
