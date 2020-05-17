@@ -1,7 +1,8 @@
 module.exports = {
     "env": {
         "browser": true,
-        "es6": true
+        "es6": true,
+        "jest": true
     },
     "extends": "airbnb",
     "globals": {
@@ -19,7 +20,12 @@ module.exports = {
         "react"
     ],
     "rules": {
+        "import/no-named-as-default": 0,
+        "import/no-named-as-default-member": 0,
         "no-shadow": "off",
-        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
+        "no-else-return": "error",
+        "no-empty": "error",
+        "no-lonely-if": "error",
+        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     }
 };

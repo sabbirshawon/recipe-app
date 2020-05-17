@@ -13,5 +13,10 @@
         "ecmaVersion": 2018
     },
     "rules": {
+        "no-undef": 0,
+        "no-shadow": "off",
+        "no-else-return": "error",
+        "no-empty": "error",
+        "no-lonely-if": "error"
     }
 }

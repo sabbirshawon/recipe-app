@@ -2,14 +2,17 @@
   "name": "recipe_app",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "start": "nodemon server.js",
     "format": "prettier --write server.js api/",
     "lint": "eslint server.js api/"
   },
   "keywords": [],
-  "author": "",
+  "author": {
+    "name": "Muhammad Lahin",
+    "url": "https://github.com/lahin31"
+  },
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",

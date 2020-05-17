@@ -21,7 +21,7 @@ const RecipesPage = (props) => {
       // eslint-disable-next-line
       isMounted = false;
     };
-  }, []);
+  }, [context]);
 
   const fetchRecipes = () => {
     // eslint-disable-next-line

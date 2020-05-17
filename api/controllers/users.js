@@ -242,11 +242,10 @@ exports.updateResetPassword = async (req, res) => {
           return res.status(500).json({
             error: err,
           });
-        } else {
-          return res.status(200).json({
-            message: "password updated",
-          });
         }
+        return res.status(200).json({
+          message: "password updated",
+        });
       }
     );
   } catch (err) {

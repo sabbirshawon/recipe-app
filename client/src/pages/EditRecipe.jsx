@@ -1,8 +1,7 @@
 import React, {
   useEffect,
   useState,
-  useContext,
-  useRef,
+  useContext
 } from 'react';
 import { useParams, withRouter } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';

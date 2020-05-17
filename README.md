@@ -13,6 +13,7 @@ A side project. Where you can add your recipe, edit your recipe and delete your 
 * MongoDB/Mongoose
 * Bcrypt.js, JSONWebToken
 * Express Fileupload
+* NodeMailer(For password reset)
 * ESLint, Prettier
 
 ## Client-side
