@@ -4,8 +4,8 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const fileUpload = require("express-fileupload");
 
-const userRoutes = require("./api/routes/users");
-const recipeRoutes = require("./api/routes/recipes");
+const userRoutes = require("./routings/users");
+const recipeRoutes = require("./routings/recipes");
 
 require("dotenv").config();
 
