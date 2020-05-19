@@ -27,28 +27,36 @@ const NavbarFallback = () => {
 function App() {
   const [token, setToken] = useState('');
   const [userId, setUserId] = useState('');
+  const [tokenExpiration, setTokenExpiration] = useState('');
 
   useEffect(() => {
     const userInfoToken = JSON.parse(
       localStorage.getItem('userInfo')
     );
     const userIdLocal = JSON.parse(localStorage.getItem('userId'));
-    if (userInfoToken && userIdLocal) {
+    const tokenExp = JSON.parse(
+      localStorage.getItem('tokenExpiration')
+    );
+    if (userInfoToken && userIdLocal && tokenExp) {
       setToken(userInfoToken);
       setUserId(userIdLocal);
+      setTokenExpiration(tokenExp);
     }
   }, []);
 
-  const login = (token, userId) => {
+  const login = (token, userId, tokenExpiratopn) => {
     setToken(token);
     setUserId(userId);
+    setTokenExpiration(tokenExpiratopn);
   };
 
   const logout = () => {
     setToken(null);
     setUserId(null);
+    setTokenExpiration(null);
     localStorage.removeItem('userInfo');
     localStorage.removeItem('userId');
+    localStorage.removeItem('tokenExpiration');
   };
 
   return (
@@ -59,6 +67,7 @@ function App() {
           userId,
           login,
           logout,
+          tokenExpiration,
         }}
       >
         <Suspense fallback={<NavbarFallback />}>

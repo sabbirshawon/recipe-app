@@ -1,8 +1,4 @@
-import React, {
-  useEffect,
-  useState,
-  useContext
-} from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useParams, withRouter } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';

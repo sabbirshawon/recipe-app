@@ -55,9 +55,16 @@ const Login = (props) => {
       .then((res) => {
         setLoading(false);
         if (!res.error) {
-          context.login(res.token, res.userId);
-          localStorage.setItem('userInfo', JSON.stringify(res.token));
+          context.login(res.accessToken, res.userId, res.expiresIn);
+          localStorage.setItem(
+            'userInfo',
+            JSON.stringify(res.accessToken)
+          );
           localStorage.setItem('userId', JSON.stringify(res.userId));
+          localStorage.setItem(
+            'tokenExpiration',
+            JSON.stringify(res.expiresIn)
+          );
           props.history.push('/');
         } else {
           setErrorMsg(res.error);
@@ -69,69 +76,67 @@ const Login = (props) => {
   };
 
   return (
-    <>
-      <Container component="main" maxWidth="xs">
-        {errMsg && (
-          <div className="error_msg_wrap">
-            <h2>{errMsg}</h2>
-          </div>
-        )}
-        <CssBaseline />
-        <div className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Login
-          </Typography>
-          <form className={classes.form} onSubmit={handleSubmit}>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              inputRef={email}
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-            />
-            <TextField
-              variant="outlined"
-              inputRef={password}
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-            >
-              {loading ? <Loader width={5} height={5} /> : 'Sign in'}
-            </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link to="/forget-password">Forgot password?</Link>
-              </Grid>
-              <Grid item>
-                <Link to="/registration">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
-            </Grid>
-          </form>
+    <Container component="main" maxWidth="xs">
+      {errMsg && (
+        <div className="error_msg_wrap">
+          <h2>{errMsg}</h2>
         </div>
-      </Container>
-    </>
+      )}
+      <CssBaseline />
+      <div className={classes.paper}>
+        <Avatar className={classes.avatar}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Login
+        </Typography>
+        <form className={classes.form} onSubmit={handleSubmit}>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            inputRef={email}
+            required
+            fullWidth
+            id="email"
+            label="Email Address"
+            name="email"
+            autoComplete="email"
+            autoFocus
+          />
+          <TextField
+            variant="outlined"
+            inputRef={password}
+            margin="normal"
+            required
+            fullWidth
+            name="password"
+            label="Password"
+            type="password"
+            id="password"
+            autoComplete="current-password"
+          />
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+          >
+            {loading ? <Loader width={5} height={5} /> : 'Sign in'}
+          </Button>
+          <Grid container>
+            <Grid item xs>
+              <Link to="/forget-password">Forgot password?</Link>
+            </Grid>
+            <Grid item>
+              <Link to="/registration">
+                {"Don't have an account? Sign Up"}
+              </Link>
+            </Grid>
+          </Grid>
+        </form>
+      </div>
+    </Container>
   );
 };
 

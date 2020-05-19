@@ -61,20 +61,22 @@ exports.login = async (req, res) => {
     }
 
     const token = generateAccessToken(user);
-    const refreshToken = jwt.sign({
-      userId: user.id,
-      email: user.email,
-    }, process.env.REFRESH_TOKEN_SECRET);
+    const refreshToken = jwt.sign(
+      {
+        userId: user.id,
+        email: user.email,
+      },
+      process.env.REFRESH_TOKEN_SECRET
+    );
 
     // saving refresh tokens in an array
     refreshTokens.push(refreshToken);
-    console.log(refreshTokens);
     return res.status(200).json({
       message: "Authenticate successfull",
       userId: user.id,
-      token,
-      expiresIn: "10h",
-      refreshToken
+      accessToken: token,
+      expiresIn: "20s",
+      refreshToken,
     });
   } catch (err) {
     return res.status(500).json({
@@ -86,20 +88,20 @@ exports.login = async (req, res) => {
 exports.createNewAccessToken = async (req, res) => {
   try {
     const refreshToken = req.body.refreshToken;
-    if(!refreshToken) {
+    if (!refreshToken) {
       return res.status(401).json({
-        error: "Add refresh token"
+        error: "Add refresh token",
       });
     }
 
-    if(!refreshTokens.includes(refreshToken)) {
+    if (!refreshTokens.includes(refreshToken)) {
       return res.status(403).json({
         error: "Not a valid token",
       });
     }
 
     jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
-      if(err) {
+      if (err) {
         return res.status(500).json({
           error: err,
         });
@@ -111,15 +113,15 @@ exports.createNewAccessToken = async (req, res) => {
       });
 
       return res.status(200).json({
-        token
+        token,
       });
-    })
+    });
   } catch (err) {
     return res.status(500).json({
       error: err,
     });
   }
-}
+};
 
 exports.getProfile = async (req, res) => {
   try {
@@ -276,28 +278,57 @@ exports.getUserName = async (req, res) => {
 exports.checkUser = async (req, res) => {
   try {
     const userId = req.body.userId;
-    if(!userId) {
+    if (!userId) {
       return res.status(500).json({
         error: "Something went wrong",
       });
     }
     const user = await User.findById({
-      _id: userId
-    })
-    if(!user) {
+      _id: userId,
+    });
+    if (!user) {
       return res.status(404).json({
         error: "No user found",
       });
     }
     return res.status(200).json({
-      user: true
+      user: true,
     });
-  } catch(err) {
+  } catch (err) {
     return res.status(500).json({
       error: err,
     });
   }
-}
+};
+
+exports.checkTokenValidity = async (req, res) => {
+  try {
+    const accessToken = req.body.accessToken;
+    console.log(accessToken);
+    if (!accessToken) {
+      return res.status(404).json({
+        error: "Token is empty",
+      });
+    }
+    jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET, function (
+      err,
+      decoded
+    ) {
+      if (err) {
+        return res.status(500).json({
+          error: err,
+        });
+      }
+      return res.status(200).json({
+        successMsg: "Working Fine",
+      });
+    });
+  } catch (err) {
+    return res.status(500).json({
+      error: err,
+    });
+  }
+};
 
 function generateAccessToken(user) {
   return jwt.sign(
@@ -307,7 +338,7 @@ function generateAccessToken(user) {
     },
     process.env.ACCESS_TOKEN_SECRET,
     {
-      expiresIn: "10h",
+      expiresIn: "20s",
     }
   );
 }

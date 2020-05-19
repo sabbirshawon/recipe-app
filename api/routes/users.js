@@ -9,6 +9,7 @@ router.post("/login", usersController.login);
 
 router.post("/forget-password", usersController.forgetPassword);
 router.get("/reset/:token", usersController.checkResetToken);
+router.post("/check-token-validity", usersController.checkTokenValidity);
 
 router.post("/reset/updateResetPassword", usersController.updateResetPassword);
 

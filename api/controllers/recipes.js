@@ -4,10 +4,10 @@ const User = require("../models/user");
 exports.getRecipes = async (req, res) => {
   try {
     const recipes = await Recipe.find();
-    const usersId = await User.find().distinct('_id')
+    const usersId = await User.find().distinct("_id");
     return res.status(200).json({
       recipes,
-      usersId
+      usersId,
     });
   } catch (err) {
     return res.status(500).json({
@@ -52,16 +52,19 @@ exports.addRecipe = async (req, res) => {
     await user.save();
     await recipe.save();
     // eslint-disable-next-line
-    file.mv(`${__dirname}/../../client/public/uploads/${file.name.replace(" ", "")}`, (err) => {
-      if (err) {
-        return res.status(500).json({
-          error: err,
+    file.mv(
+      `${__dirname}/../../client/public/uploads/${file.name.replace(" ", "")}`,
+      (err) => {
+        if (err) {
+          return res.status(500).json({
+            error: err,
+          });
+        }
+        return res.status(200).json({
+          message: "Successfully added",
         });
       }
-      return res.status(200).json({
-        message: "Successfully added",
-      });
-    });
+    );
   } catch (err) {
     res.status(500).json({
       error: err,
@@ -73,20 +76,20 @@ exports.getRecipeDetails = async (req, res) => {
   try {
     const id = req.params.recipeId;
     const recipe = await Recipe.findById({ _id: id });
-    if(!recipe) {
+    if (!recipe) {
       return res.status(500).json({
         error: "Something went wrong",
       });
     }
     const user = await User.findById({ _id: recipe.creator });
-    if(!user) {
+    if (!user) {
       return res.status(500).json({
         error: "Something went wrong",
       });
     }
     return res.status(200).json({
       recipe,
-      user
+      user,
     });
   } catch (err) {
     return res.status(500).json({
@@ -98,7 +101,7 @@ exports.getRecipeDetails = async (req, res) => {
 exports.editRecipeDetails = async (req, res) => {
   try {
     const recipeId = req.body.recipeId;
-    if(!recipeId) {
+    if (!recipeId) {
       return res.status(500).json({
         error: "Something went wrong",
       });
@@ -106,60 +109,65 @@ exports.editRecipeDetails = async (req, res) => {
 
     const recipe = await Recipe.findById({ _id: recipeId });
 
-    if(recipe) {
+    if (recipe) {
       return res.status(200).json({
         success: "recipe found",
-        recipeId
+        recipeId,
       });
     }
 
     return res.status(404).json({
-      error: "Not found"
+      error: "Not found",
     });
   } catch (err) {
     return res.status(500).json({
       error: "Something went wrong",
     });
   }
-}
+};
 
 exports.saveEditRecipe = async (req, res) => {
   try {
     const recipeId = req.params.recipeId;
     const ingredients = JSON.parse(req.body.ingredients);
-    const recipe = await Recipe.updateOne({_id: recipeId}, {$set: {
-      title: req.body.title,
-      description: req.body.description,
-      calorie: req.body.calorie,
-      cholesterol: req.body.cholesterol,
-      fiber: req.body.fiber,
-      fat: req.body.fat,
-      protein: req.body.protein,
-      ingredients
-    }})
+    const recipe = await Recipe.updateOne(
+      { _id: recipeId },
+      {
+        $set: {
+          title: req.body.title,
+          description: req.body.description,
+          calorie: req.body.calorie,
+          cholesterol: req.body.cholesterol,
+          fiber: req.body.fiber,
+          fat: req.body.fat,
+          protein: req.body.protein,
+          ingredients,
+        },
+      }
+    );
     return res.status(200).json({
       successMsg: "updated",
-      recipe
+      recipe,
     });
   } catch (err) {
     return res.status(500).json({
       error: "Something went wrong",
     });
   }
-}
+};
 
 exports.deleteRecipe = async (req, res) => {
   try {
     const recipeId = req.body.recipeId;
 
-    if(!recipeId) {
+    if (!recipeId) {
       return res.status(500).json({
         error: "Something went wrong",
       });
     }
 
     const recipe = await Recipe.deleteOne({ _id: recipeId });
-    if(!recipe) {
+    if (!recipe) {
       return res.status(404).json({
         error: "No recipe found",
       });
@@ -168,9 +176,9 @@ exports.deleteRecipe = async (req, res) => {
     return res.status(200).json({
       successMsg: "Successfully deleted",
     });
-  } catch(err) {
+  } catch (err) {
     return res.status(500).json({
       error: "Something went wrong",
     });
   }
-}
+};

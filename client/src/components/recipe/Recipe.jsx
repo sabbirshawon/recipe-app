@@ -29,22 +29,24 @@ const Recipe = (props) => {
   });
 
   useEffect(() => {
-    fetch(`/users/check-user`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        userId: context.userId,
-      }),
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.user) {
-          setShowDeleteBtn(true);
-        }
+    if(context.userId) {
+      fetch(`/users/check-user`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId: context.userId,
+        }),
       })
-      .catch((err) => {
-        console.log(err);
-      });
+        .then((res) => res.json())
+        .then((res) => {
+          if (res.user) {
+            setShowDeleteBtn(true);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   }, [context]);
 
   const handleClickOpen = () => {

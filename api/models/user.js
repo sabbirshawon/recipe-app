@@ -19,7 +19,7 @@ const userSchema = new Schema({
   },
   emailConfirmation: {
     type: Boolean,
-    default: false
+    default: false,
   },
   password: {
     type: String,

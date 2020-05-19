@@ -84,6 +84,8 @@ const RecipeDetails = (props) => {
                         {ing.key} - {ing.value}
                       </p>
                     );
+                  } else {
+                    return null;
                   }
                 })}
             </div>

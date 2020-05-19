@@ -10,22 +10,9 @@ const RecipesPage = (props) => {
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(true);
   const context = useContext(AuthContext);
-  let isMounted = false;
 
   useEffect(() => {
-    fetchRecipes();
-  }, [context]);
-
-  useEffect(() => {
-    return () => {
-      // eslint-disable-next-line
-      isMounted = false;
-    };
-  }, [context]);
-
-  const fetchRecipes = () => {
-    // eslint-disable-next-line
-    isMounted = true;
+    let isMounted = true;
     fetch('/recipes', {
       method: 'POST',
       headers: {
@@ -45,7 +32,11 @@ const RecipesPage = (props) => {
       .catch((err) => {
         setLoading(true);
       });
-  };
+    return () => {
+      // eslint-disable-next-line
+      isMounted = false;
+    };
+  }, [context]);
 
   const handleRecipe = (recipeId) => {
     props.history.push('/recipes/' + recipeId);
@@ -62,7 +53,23 @@ const RecipesPage = (props) => {
       .then((res) => res.json())
       .then((res) => {
         if (res.successMsg) {
-          fetchRecipes();
+          fetch('/recipes', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              userId: context && context.userId ? context.userId : '',
+            }),
+          })
+            .then((res) => res.json())
+            .then((res) => {
+              setRecipes(res.recipes);
+              setLoading(false);
+            })
+            .catch((err) => {
+              setLoading(true);
+            });
         }
       })
       .catch((err) => {

@@ -1,4 +1,9 @@
-import React, { useState, useContext, useRef } from 'react';
+import React, {
+  useState,
+  useContext,
+  useRef,
+  useEffect,
+} from 'react';
 import { withRouter } from 'react-router-dom';
 import AuthContext from '../contexts/auth-context';
 import TextField from '@material-ui/core/TextField';
@@ -25,6 +30,26 @@ const AddRecipe = (props) => {
   const fat = useRef();
 
   const context = useContext(AuthContext);
+
+  useEffect(() => {
+    if (context.tokenExpiration) {
+      fetch('/users/check-token-validity', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + context.token,
+        },
+        body: JSON.stringify({ accessToken: context.token }),
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          if (res.error) {
+            context.logout();
+            props.history.push('/login');
+          }
+        });
+    }
+  }, [context, props]);
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
