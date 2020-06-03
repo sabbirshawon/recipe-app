@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { NavLink, withRouter } from 'react-router-dom';
+import Brightness2Icon from '@material-ui/icons/Brightness2';
 import Drawer from '@material-ui/core/Drawer';
 import AuthContext from '../../contexts/auth-context';
 import IconButton from '@material-ui/core/IconButton';
@@ -85,6 +86,11 @@ const Navbar = (props) => {
               <button onClick={handleLogout}>Logout</button>
             </li>
           )}
+          <div className="theme_btn_wrap" onClick={props.handleTheme}>
+            <span>
+              <Brightness2Icon />
+            </span>
+          </div>
         </ul>
       </nav>
       <Drawer

@@ -70,13 +70,24 @@
   cursor: pointer;
 }
 
+.theme_btn_wrap {
+  margin-top: 10px;
+}
+
+.theme_btn_wrap span {
+  cursor: pointer;
+  color: #fff;
+}
+
 @media(max-width: 500px) {
   .main-navigation {
     justify-content: end;
   }
+
   .drawer_menu_icon {
     display: block !important;
   }
+
   .main-navigation__items {
     display: none;
   }

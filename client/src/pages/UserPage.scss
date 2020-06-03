@@ -1,20 +1,30 @@
 .user_page_wrap {
+	.loader_wrap {
+		display: flex;
+		justify-content: center;
+	}
+
 	.recipe_item_list {
 		cursor: pointer;
 	}
+
 	.user {
 		display: flex;
 		flex-wrap: wrap;
+
 		.user_thumbnail {
 			flex: 1;
+
 			img {
 				width: 60%;
 				margin: 0 auto;
 				padding: 30px;
 			}
 		}
+
 		.user_details {
 			flex: 5;
+
 			.user_recipes_tab_header {
 				padding: 0;
 			}
@@ -32,12 +42,15 @@
 	.user_page_wrap {
 		.user {
 			display: inline-block;
+
 			.user_thumbnail {
 				text-align: center;
+
 				img {
 					padding: 0;
 				}
 			}
+
 			.user_details {
 				h1 {
 					text-align: center;
