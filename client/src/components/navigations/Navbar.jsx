@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { NavLink, withRouter } from 'react-router-dom';
+import { NavLink, Link, withRouter } from 'react-router-dom';
 import Brightness2Icon from '@material-ui/icons/Brightness2';
 import Drawer from '@material-ui/core/Drawer';
 import AuthContext from '../../contexts/auth-context';
@@ -58,7 +58,9 @@ const Navbar = (props) => {
         <MenuIcon />
       </IconButton>
       <div className="main-navigation__logo">
-        <h1 className="main-navigation__heading">Recipe App</h1>
+        <Link to={'/'}>
+          <h1 className="main-navigation__heading">Recipe App</h1>
+        </Link>
       </div>
       <nav className="main-navigation__items">
         <ul>

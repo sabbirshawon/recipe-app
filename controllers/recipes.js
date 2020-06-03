@@ -53,7 +53,7 @@ exports.addRecipe = async (req, res) => {
     await recipe.save();
     // eslint-disable-next-line
     file.mv(
-      `${__dirname}/../../client/public/uploads/${file.name.replace(" ", "")}`,
+      `${__dirname}/../client/public/uploads/${file.name.replace(" ", "")}`,
       (err) => {
         if (err) {
           return res.status(500).json({

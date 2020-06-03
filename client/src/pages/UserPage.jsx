@@ -130,7 +130,7 @@ const UserPage = (props) => {
                 <TabPanel value={value} index={0}>
                   <div className="recipes">
                     {!loading && recipes.length === 0 && (
-                      <h2>No items</h2>
+                      <h2>You have no items</h2>
                     )}
                     {loading && recipes && recipes.length === 0 && (
                       <Loader width={120} height={120} />

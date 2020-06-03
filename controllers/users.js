@@ -75,7 +75,7 @@ exports.login = async (req, res) => {
       message: "Authenticate successfull",
       userId: user.id,
       accessToken: token,
-      expiresIn: "20s",
+      expiresIn: "10h",
       refreshToken,
     });
   } catch (err) {
@@ -304,7 +304,6 @@ exports.checkUser = async (req, res) => {
 exports.checkTokenValidity = async (req, res) => {
   try {
     const accessToken = req.body.accessToken;
-    console.log(accessToken);
     if (!accessToken) {
       return res.status(404).json({
         error: "Token is empty",
@@ -338,7 +337,7 @@ function generateAccessToken(user) {
     },
     process.env.ACCESS_TOKEN_SECRET,
     {
-      expiresIn: "20s",
+      expiresIn: "10h",
     }
   );
 }

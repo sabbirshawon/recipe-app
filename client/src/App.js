@@ -45,6 +45,11 @@ input, textarea {
     props.theme.mode === 'dark' ? '#111 !important' : '#EEE'
   };
 }
+.recipe_ingredients_wrap, .recipes {
+  color: ${props => 
+    props.theme.mode === 'dark' ? '#111 !important' : ''
+  };
+}
 `;
 
 function App() {

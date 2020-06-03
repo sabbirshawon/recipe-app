@@ -49,16 +49,33 @@ const RecipeDetails = (props) => {
       )}
       {!errMsg && !loading && (
         <>
-          <div className="recipe_image">
-            <img
-              src={
-                process.env.PUBLIC_URL +
-                '/uploads/' +
-                recipe.recipeImage
-              }
-              alt={recipe.title}
-              style={{ maxWidth: '100%' }}
-            />
+          <div className="recipe_header">
+            <div className="recipe_image">
+              <img
+                src={
+                  process.env.PUBLIC_URL +
+                  '/uploads/' +
+                  recipe.recipeImage
+                }
+                alt={recipe.title}
+                style={{ maxWidth: '100%' }}
+              />
+            </div>
+            <div className="recipe_ingredients_wrap">
+              <h2>Ingredients</h2>
+              {recipe.ingredients &&
+                recipe.ingredients.map((ing, index) => {
+                  if (ing.key !== '' && ing.value !== '') {
+                    return (
+                      <p key={index}>
+                        <b>{ing.key}</b> - {ing.value}
+                      </p>
+                    );
+                  } else {
+                    return null;
+                  }
+                })}
+            </div>
           </div>
           <div className="recipe_content">
             <h1>
@@ -74,21 +91,6 @@ const RecipeDetails = (props) => {
               </span>
             </h1>
             <p>{recipe.description}</p>
-            <div className="recipe_ingredients_wrap">
-              <h2>Ingredients</h2>
-              {recipe.ingredients &&
-                recipe.ingredients.map((ing, index) => {
-                  if (ing.key !== '' && ing.value !== '') {
-                    return (
-                      <p key={index}>
-                        {ing.key} - {ing.value}
-                      </p>
-                    );
-                  } else {
-                    return null;
-                  }
-                })}
-            </div>
             <div className="recipe_nutritions_wrap">
               <h2>Nutritions</h2>
               {!recipe.calories &&
