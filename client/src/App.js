@@ -5,7 +5,7 @@ import {
   Switch,
   Redirect,
 } from 'react-router-dom';
-import { ThemeProvider, createGlobalStyle } from 'styled-components';
+import { ThemeProvider } from 'styled-components';
 import Login from './pages/Login';
 import SignUp from './pages/Signup';
 import NoMatch from './pages/NoMatch';
@@ -17,40 +17,11 @@ import ResetPassword from './pages/ResetPassword';
 import AuthContext from './contexts/auth-context';
 import RecipeDetails from './pages/RecipeDetails';
 import ForgetPassword from './pages/ForgetPassword';
+import NavbarFallback from './components/fallbacks/Navbar';
+import { GlobalStyle } from './globalStyles';
 import './App.scss';
 
 const Navbar = lazy(() => import('./components/navigations/Navbar'));
-
-const NavbarFallback = () => {
-  return <div className="main-navigation"></div>;
-};
-
-const GlobalStyle = createGlobalStyle`
-body {
-  background-color: ${props => 
-    props.theme.mode === 'dark' ? '#111 !important' : '#EEE'
-  };
-  color: ${props => 
-    props.theme.mode === 'dark' ? '#EEE !important' : '#111'
-  };
-}
-label {
-  color: ${props => props.theme.mode === 'dark' ? '#fff !important' : 'rgba(0, 0, 0, 0.54)' }
-}
-input, textarea {
-  color: ${props => props.theme.mode === 'dark' ? '#fff !important' : 'rgba(0, 0, 0, 0.54)' }
-}
-.theme_btn_wrap span {
-  color: ${props => 
-    props.theme.mode === 'dark' ? '#111 !important' : '#EEE'
-  };
-}
-.recipe_ingredients_wrap, .recipes {
-  color: ${props => 
-    props.theme.mode === 'dark' ? '#111 !important' : ''
-  };
-}
-`;
 
 function App() {
   const [token, setToken] = useState('');

@@ -1,14 +1,16 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const mongoose = require("mongoose");
 const fileUpload = require("express-fileupload");
 
+const db = require('./databases');
 const userRoutes = require("./routings/users");
 const recipeRoutes = require("./routings/recipes");
 
+// enabling .env
 require("dotenv").config();
 
+// making an instance of express
 const app = express();
 app.use(bodyParser.json());
 app.use(
@@ -19,19 +21,14 @@ app.use(
 app.use(cors());
 app.use(fileUpload());
 
-mongoose.set("useCreateIndex", true);
-mongoose.connect(
-  `mongodb://${process.env.DATABASE_USERNAME}:${process.env.DATABASE_PASSWORD}@ds015774.mlab.com:15774/recipe-app`,
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  }
-);
-mongoose.set("useFindAndModify", false);
-
+// grouping routes
 app.use("/users", userRoutes);
 app.use("/recipes", recipeRoutes);
 
+// calling db connection
+db.makeDb();
+
+// checking any error request
 app.use((req, res, next) => {
   const error = new Error("Not Found");
   error.status = 404;
@@ -47,4 +44,5 @@ app.use((err, req, res) => {
   });
 });
 
+// listening the port
 app.listen(process.env.port || 5000);
